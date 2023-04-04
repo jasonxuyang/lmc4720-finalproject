@@ -9,7 +9,8 @@ export default function Journal() {
       {journal.map((entry, index) => {
         return (
           <p key={index}>
-            {entry.day}: {entry?.person} {entry.location}
+            {entry.day}: {entry?.flag ? entry.flag : "Filmed"} in the{" "}
+            {entry.location}
           </p>
         );
       })}

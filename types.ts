@@ -27,6 +27,7 @@ export enum Person {
   Riley = "Professor Riley",
   Janitor = "Janitor",
   Ryder = "Ryder",
+  Parker = "Parker",
 }
 
 export enum GameState {
@@ -41,12 +42,14 @@ export enum Flag {
   MetRyder = "Met Ryder",
   TalkedAboutRyderWithRiley = "Talked about Ryder with Professor Riley",
   TalkedAboutGhostWithRiley = "Talked about ghosts with Professor Riley",
+  MetJanitor = "Ran into Janitor",
 }
 
 export type JournalEntry = {
   day: Day;
   location: Location;
   person?: Person;
+  flag?: Flag;
 };
 
 export type PassageTree = {
@@ -55,6 +58,7 @@ export type PassageTree = {
 
 export type PassageNode = {
   content: ReactNode;
+  person: Person;
   label?: string;
   children?: PassageNode[];
   effect?: number;

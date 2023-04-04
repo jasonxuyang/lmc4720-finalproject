@@ -58,3 +58,7 @@ export const getInteractionCount = (
 export const checkFlag = (flags: Flag[], flag: Flag) => {
   return flags.some((flag) => flag === flag);
 };
+
+export const chooseRandomNumber = () => {
+  return Math.floor(Math.random() * 100);
+};

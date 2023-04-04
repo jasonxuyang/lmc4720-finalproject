@@ -1,5 +1,6 @@
 import gameStateState from "@/recoil/gameStateState";
 import { GameState } from "@/types";
+import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 
 export default function Start() {

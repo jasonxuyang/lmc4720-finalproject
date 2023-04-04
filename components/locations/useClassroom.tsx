@@ -1,32 +1,17 @@
-import {
-  checkFlag,
-  generateRandomWeather,
-  getNextDay,
-  getVisitedCount,
-} from "@/helpers";
-import dayState from "@/recoil/dayState";
+import { checkFlag, getVisitedCount } from "@/helpers";
 import flagsState from "@/recoil/flagsState";
 import journalState from "@/recoil/journalState";
 import locationState from "@/recoil/locationState";
-import peopleState from "@/recoil/peopleState";
 import weatherState from "@/recoil/weatherState";
-import { Flag, PassageNode, Weather } from "@/types";
-import { useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { Flag, PassageNode, Person, Weather } from "@/types";
+import { useRecoilValue } from "recoil";
 
-export default function Classroom() {
-  const [location, setLocation] = useRecoilState(locationState);
-  const [day, setDay] = useRecoilState(dayState);
-  const [journal, setJournal] = useRecoilState(journalState);
-  const [weather, setWeather] = useRecoilState(weatherState);
-  const [flags, setFlags] = useRecoilState(flagsState);
-  const [passage, setPassage] = useState<PassageNode | undefined>(undefined);
-
-  useEffect(() => {
-    setPassage(generateInitialPassage);
-  }, []);
-
-  if (!location) return null;
+export default function useClassroom(): PassageNode | undefined {
+  const location = useRecoilValue(locationState);
+  const journal = useRecoilValue(journalState);
+  const weather = useRecoilValue(weatherState);
+  const flags = useRecoilValue(flagsState);
+  if (!location) return undefined;
   const timesVisited = getVisitedCount(journal, location);
   const isFirstTime = timesVisited === 0;
   const isRaining = weather === Weather.Raining;
@@ -35,7 +20,8 @@ export default function Classroom() {
     const children: PassageNode[] = [];
     if (isRaining) return [];
     children.push({
-      label: "Yeah... nothing interesting yet...",
+      label: "Nothing interesting...",
+      person: Person.Riley,
       content: (
         <>
           <p>
@@ -52,6 +38,7 @@ export default function Classroom() {
     if (!checkFlag(flags, Flag.TalkedAboutGhostWithRiley))
       children.push({
         label: "Have you heard anything about a ghost?",
+        person: Person.Riley,
         content: (
           <>
             <p>
@@ -80,6 +67,7 @@ export default function Classroom() {
     )
       children.push({
         label: "Can I ask you about Ryder?",
+        person: Person.Riley,
         content: (
           <>
             <p>
@@ -101,6 +89,8 @@ export default function Classroom() {
   };
 
   const generateInitialPassage = (): PassageNode => {
+    let flag;
+    let person = Person.Riley;
     let content = (
       <>
         <p>
@@ -143,7 +133,9 @@ export default function Classroom() {
         </>
       );
 
-    if (isRaining)
+    if (isRaining) {
+      flag = Flag.SeenGhost;
+      person = Person.Parker;
       content = (
         <>
           <p>
@@ -164,52 +156,14 @@ export default function Classroom() {
           <p>
             As you rub your head confused and in pain you see an expo marker
             lying on the ground. “Maybe it was a ghost…” you think to yourself
-            as you start to grin.
+            as you start to laugh.
           </p>
         </>
       );
+    }
 
-    return { content, children: generateChildren() };
+    return { content, person, children: generateChildren(), flag };
   };
 
-  if (!passage) return null;
-
-  return (
-    <div className="w-8/12 p-12">
-      <h2>
-        {location}: visited {timesVisited} times
-      </h2>
-      <div className="mt-8 flex flex-col gap-y-2">{passage?.content}</div>
-      <div className="mt-8">
-        {passage?.children?.map((child) => {
-          return (
-            <div
-              key={child.label}
-              onClick={() => {
-                setPassage(child);
-                if (child.flag) setFlags([...flags, child.flag]);
-              }}
-              className="mt-1 cursor-pointer underline hover:text-gray-300"
-            >
-              {child.label}
-            </div>
-          );
-        })}
-      </div>
-      {!passage?.children?.length && (
-        <div
-          className="mt-4 w-fit cursor-pointer bg-white px-8 py-4 text-black hover:bg-gray-300"
-          onClick={() => {
-            setLocation(undefined);
-            setDay(getNextDay(day));
-            setJournal([...journal, { day, location }]);
-            setWeather(generateRandomWeather());
-            console.log(weather);
-          }}
-        >
-          Next
-        </div>
-      )}
-    </div>
-  );
+  return generateInitialPassage();
 }

@@ -11,6 +11,7 @@ const peopleState = atom<PeopleState>({
     [Person.Riley]: { favor: 0 },
     [Person.Janitor]: { favor: 0 },
     [Person.Ryder]: { favor: 0 },
+    [Person.Parker]: { favor: 0 },
   },
 });
 
