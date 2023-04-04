@@ -59,7 +59,12 @@ export default function LocationPicker() {
           {Object.values(Location).map((location) => {
             return (
               <div
-                className="cursor-pointer bg-white px-8 py-4 text-black hover:bg-gray-300"
+                className={`cursor-pointer bg-white px-8 py-4 text-black hover:bg-gray-300 ${
+                  (location === Location.Gym ||
+                    location === Location.Cafeteria ||
+                    location === Location.Library) &&
+                  "pointer-events-none opacity-50"
+                }`}
                 key={location}
                 onClick={() => {
                   setLocation(location);

@@ -3,7 +3,7 @@ import flagsState from "@/recoil/flagsState";
 import journalState from "@/recoil/journalState";
 import locationState from "@/recoil/locationState";
 import weatherState from "@/recoil/weatherState";
-import { Flag, PassageNode, Person, Weather } from "@/types";
+import { Flag, Location, PassageNode, Person, Weather } from "@/types";
 import { useRecoilValue } from "recoil";
 
 export default function useClassroom(): PassageNode | undefined {
@@ -15,6 +15,11 @@ export default function useClassroom(): PassageNode | undefined {
   const timesVisited = getVisitedCount(journal, location);
   const isFirstTime = timesVisited === 0;
   const isRaining = weather === Weather.Raining;
+
+  const hasMetRyder = journal.some(
+    (entry) =>
+      entry.flag === Flag.MetRyder && entry.location === Location.MainHall
+  );
 
   const generateChildren = (): PassageNode[] => {
     const children: PassageNode[] = [];
@@ -61,10 +66,7 @@ export default function useClassroom(): PassageNode | undefined {
         effect: -1,
         flag: Flag.TalkedAboutGhostWithRiley,
       });
-    if (
-      !checkFlag(flags, Flag.TalkedAboutRyderWithRiley) &&
-      checkFlag(flags, Flag.MetRyder)
-    )
+    if (hasMetRyder)
       children.push({
         label: "Can I ask you about Ryder?",
         person: Person.Riley,

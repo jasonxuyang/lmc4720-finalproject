@@ -1,30 +1,20 @@
-import {
-  checkFlag,
-  chooseRandomNumber,
-  getInteractionCount,
-  getVisitedCount,
-} from "@/helpers";
-import flagsState from "@/recoil/flagsState";
+import { chooseRandomNumber, getVisitedCount } from "@/helpers";
 import journalState from "@/recoil/journalState";
 import locationState from "@/recoil/locationState";
-import weatherState from "@/recoil/weatherState";
 import { Flag, Location, PassageNode, Person, Weather } from "@/types";
 import { useRecoilValue } from "recoil";
 
 export default function useMainHall(): PassageNode | undefined {
   const location = useRecoilValue(locationState);
   const journal = useRecoilValue(journalState);
-  const weather = useRecoilValue(weatherState);
-  const flags = useRecoilValue(flagsState);
   if (!location) return undefined;
   const timesVisited = getVisitedCount(journal, location);
   const isFirstTime = timesVisited === 0;
-  const isRaining = weather === Weather.Raining;
 
   let person: Person;
   const die = chooseRandomNumber();
-  if (die < 25) person = Person.Janitor;
-  else if (die > 75) person = Person.Ryder;
+  if (die < 30) person = Person.Janitor;
+  else if (die > 70) person = Person.Ryder;
   else person = Person.Parker;
 
   const janitorFlag =
@@ -104,6 +94,7 @@ export default function useMainHall(): PassageNode | undefined {
 
   const generateInitialPassage = (): PassageNode => {
     let flag;
+    let effect;
     let content = (
       <>
         <p>
@@ -161,6 +152,7 @@ export default function useMainHall(): PassageNode | undefined {
 
     if (ryderFlag) {
       flag = Flag.MetRyder;
+      effect = 1;
       content = (
         <>
           <p>
@@ -210,7 +202,7 @@ export default function useMainHall(): PassageNode | undefined {
       //     </>
       //   );
     }
-    return { content, person, children: generateChildren(), flag };
+    return { content, person, children: generateChildren(), flag, effect };
   };
 
   return generateInitialPassage();
