@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import useClassroom from "./locations/useClassroom";
 import useMainHall from "./locations/useMainHall";
+import useGym from "./locations/useGym";
 
 export default function LocationWrapper() {
   const [location, setLocation] = useRecoilState(locationState);
@@ -25,6 +26,7 @@ export default function LocationWrapper() {
   const [people, setPeople] = useRecoilState(peopleState);
   const classRoomPassage = useClassroom();
   const mainHallPassage = useMainHall();
+  const gymPassage = useGym();
   const [passage, setPassage] = useState<PassageNode | undefined>(undefined);
 
   useEffect(() => {
@@ -34,6 +36,8 @@ export default function LocationWrapper() {
           return classRoomPassage;
         case Location.MainHall:
           return mainHallPassage;
+        case Location.Gym:
+          return gymPassage;
         default:
           return classRoomPassage;
       }
@@ -63,7 +67,7 @@ export default function LocationWrapper() {
     }
     setJournal([
       ...journal,
-      passage?.flag ? { day, location, flag: passage.flag } : { day, location },
+      { day, location, flag: passage?.flag, person: passage?.person },
     ]);
   };
 

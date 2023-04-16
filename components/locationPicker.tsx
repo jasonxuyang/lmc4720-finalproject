@@ -15,15 +15,9 @@ const renderFirstDayText = () => {
         start trickling in.
       </p>
       <p>
-        As you watch, you begin thinking about your own fun days that you had in
-        high school.
+        You see Professor Riley approaching you and give him a firm handshake.
+        “Never thought you’d ever be back here eh?” He jokes at you.
       </p>
-      <p>
-        Before getting lost in your thoughts, you see Professor Riley
-        approaching you and give him a firm handshake. “Never thought you’d ever
-        be back here eh?” He jokes at you.
-      </p>
-      <p></p>
       <p>
         As you both walk in, he gives you a quick tour of the Gym, Library, and
         Cafeteria.
@@ -60,8 +54,7 @@ export default function LocationPicker() {
             return (
               <div
                 className={`cursor-pointer bg-white px-8 py-4 text-black hover:bg-gray-300 ${
-                  (location === Location.Gym ||
-                    location === Location.Cafeteria ||
+                  (location === Location.Cafeteria ||
                     location === Location.Library) &&
                   "pointer-events-none opacity-50"
                 }`}

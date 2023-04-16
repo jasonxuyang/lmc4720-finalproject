@@ -13,15 +13,17 @@ export default function useMainHall(): PassageNode | undefined {
 
   let person: Person;
   const die = chooseRandomNumber();
-  if (die < 30) person = Person.Janitor;
-  else if (die > 70) person = Person.Ryder;
+  if (die < 33) person = Person.Janitor;
+  else if (die > 66) person = Person.Ryder;
   else person = Person.Parker;
 
   const janitorFlag =
     person === Person.Janitor &&
     !journal.some(
       (entry) =>
-        entry.flag === Flag.MetJanitor && entry.location === Location.MainHall
+        (entry.flag === Flag.SaidYesToJanitor ||
+          entry.flag === Flag.SaidNoToJanitor) &&
+        entry.location === Location.MainHall
     );
 
   const ryderFlag =
@@ -47,7 +49,7 @@ export default function useMainHall(): PassageNode | undefined {
           label: "Yes, I do actually...",
           person,
           effect: 1,
-          flag: Flag.MetJanitor,
+          flag: Flag.SaidYesToJanitor,
           content: (
             <>
               <p>
@@ -66,9 +68,8 @@ export default function useMainHall(): PassageNode | undefined {
                 his face.
               </p>
               <p>
-                You reply with a strong affirmation and quickly walk away. “What
-                an interesting fellow…” you think to yourself as you put away
-                your camera.
+                You reply with a strong affirmation and quickly walk away. You
+                can’t help but feel excited as you put away your camera.
               </p>
             </>
           ),
@@ -76,7 +77,7 @@ export default function useMainHall(): PassageNode | undefined {
         {
           label: "No thank you, I don’t as you quickly walk away",
           person,
-          flag: Flag.MetJanitor,
+          flag: Flag.SaidNoToJanitor,
           effect: -1,
           content: (
             <>
@@ -162,7 +163,7 @@ export default function useMainHall(): PassageNode | undefined {
           <p>
             As you wander around, you see the same student in the hallway as
             last time. He seems to be in a rush again. You watch him run and as
-            he’s about to past you he suddenly changes direction and runs into
+            he’s about to pass you he suddenly changes direction and runs into
             you.
           </p>
           <p>“Ooof..” you exhale as you take the blow. “Are you okay kid?”</p>
@@ -173,34 +174,35 @@ export default function useMainHall(): PassageNode | undefined {
           </p>
           <p>“What did you just look at?” you ask him.</p>
           <p>
-            “Ohh.. nothing, it’s… it’s nothing” he stutters out. He looks closer
-            at you. “Oh, aren’t you that filmmaker making a documentary about
-            our school? Professor Riley told us about you.”
-          </p>
-          <p>
-            You tell him about how you used to be a student here, and how you
-            actually used to be in Professor Riley’s class too.
-          </p>
-          <p>
-            “Professor Riley’s chill” he responds, “My name’s Ryder, and you
-            seem pretty chill too”. He gives you a fist bump and then just walks
-            away.
-          </p>
-          <p>
-            As you watch him walk away, you start thinking kids are weird these
-            days…
+            “Ohh.. nothing, it’s… it’s nothing” he stutters out as he quickly
+            shuffles away.”
           </p>
         </>
       );
     }
 
-    // todo
     if (parkerFlag) {
-      //   flag = Flag.SeenGhost;
-      //   content = (
-      //     <>
-      //     </>
-      //   );
+      flag = Flag.SeenGhost;
+      content = (
+        <>
+          <p>As you wander around the halls you feel a tap on your shoulder.</p>
+          <p>You look around but don’t see anything and keep walking.</p>
+          <p>
+            You walk a few more paces and you feel another tap. You quickly turn
+            around but don’t see anything. Confused, you slowly turn back toward
+            the direction you were facing.
+          </p>
+          <p>“BOO” you hear whispered in your ear.</p>
+          <p>
+            You jump back a little and you feel your legs give out under you as
+            you fall to the ground.
+          </p>
+          <p>
+            You hear the faint sound of laughing echo through the hallway as you
+            get up.
+          </p>
+        </>
+      );
     }
     return { content, person, children: generateChildren(), flag, effect };
   };

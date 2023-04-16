@@ -42,7 +42,12 @@ export enum Flag {
   MetRyder = "Met Ryder",
   TalkedAboutRyderWithRiley = "Talked about Ryder with Professor Riley",
   TalkedAboutGhostWithRiley = "Talked about ghosts with Professor Riley",
-  MetJanitor = "Ran into Janitor",
+  SaidYesToJanitor = "Talked about ghosts with Janitor",
+  SaidNoToJanitor = "Ran into Janitor",
+  SawRyderInGym = "Saw Ryder play basektball",
+  TalkedAboutRyderWithJanitor = "Talked about Ryder with Janitor",
+  WillHelpJanitor = "Offered help to Janitor",
+  WillNotHelpJanitor = "Rejected help to Janitor",
 }
 
 export type JournalEntry = {

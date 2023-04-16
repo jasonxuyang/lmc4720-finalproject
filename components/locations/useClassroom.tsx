@@ -30,12 +30,13 @@ export default function useClassroom(): PassageNode | undefined {
       content: (
         <>
           <p>
-            “What did you think was going to happen?” he says as he laughs out
-            loud.
+            “What did you think was going to happen?” he says as he laughs
+            hesitantly.
           </p>
           <p>
-            In your head, doubts start to creep in. “Why am I chasing a ghost
-            rumor…” you start thinking to yourself as you pack up your things.
+            You feel that he is hiding something, but you also start to feel
+            doubts creep into your mind. “Why am I chasing a ghost rumor…” you
+            start thinking to yourself as you pack up your things.
           </p>
         </>
       ),
@@ -48,7 +49,7 @@ export default function useClassroom(): PassageNode | undefined {
           <>
             <p>
               His eyes dart towards you and he sharply says “There’s no ghosts
-              here. They aren’t real.”
+              here. Ghosts aren’t real.”
             </p>
             <p>
               Taken aback a bit by your old professor’s response, you don’t
@@ -66,7 +67,7 @@ export default function useClassroom(): PassageNode | undefined {
         effect: -1,
         flag: Flag.TalkedAboutGhostWithRiley,
       });
-    if (hasMetRyder)
+    if (hasMetRyder && !checkFlag(flags, Flag.TalkedAboutRyderWithRiley))
       children.push({
         label: "Can I ask you about Ryder?",
         person: Person.Riley,
@@ -112,9 +113,7 @@ export default function useClassroom(): PassageNode | undefined {
         <>
           <p>
             You enter Professor Riley’s classroom as his first class is
-            finishing up. You stand quietly in the back and reminisce about back
-            when you used to be in this classroom. “Nothing has changed at all…”
-            you warmly think to yourself.
+            finishing up. You stat getting set up in the back of the classroom.
           </p>
           <p>
             After Professor Riley dismisses class he comes over and chats with
@@ -157,8 +156,8 @@ export default function useClassroom(): PassageNode | undefined {
           </p>
           <p>
             As you rub your head confused and in pain you see an expo marker
-            lying on the ground. “Maybe it was a ghost…” you think to yourself
-            as you start to laugh.
+            lying on the ground. “Maybe it was a ghost? It couldn’t be... ” you
+            think to yourself as you start to laugh.
           </p>
         </>
       );
