@@ -48,6 +48,9 @@ export enum Flag {
   TalkedAboutRyderWithJanitor = "Talked about Ryder with Janitor",
   WillHelpJanitor = "Offered help to Janitor",
   WillNotHelpJanitor = "Rejected help to Janitor",
+  WillHelpRyder = "Offered help to Ryder",
+  WillNotHelpRyder = "Rejected help to Ryder",
+  TalkedAboutGhostWithRyder = "Talked about Parker with Ryder",
 }
 
 export type JournalEntry = {
@@ -63,7 +66,7 @@ export type PassageTree = {
 
 export type PassageNode = {
   content: ReactNode;
-  person: Person;
+  person?: Person;
   label?: string;
   children?: PassageNode[];
   effect?: number;

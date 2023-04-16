@@ -43,7 +43,7 @@ export default function useMainHall(): PassageNode | undefined {
   const generateChildren = (): PassageNode[] => {
     const children: PassageNode[] = [];
     if (person === Person.Parker) return children;
-    if (janitorFlag) {
+    if (janitorFlag && !isFirstTime) {
       return [
         {
           label: "Yes, I do actually...",
@@ -114,10 +114,7 @@ export default function useMainHall(): PassageNode | undefined {
     if (isFirstTime)
       content = (
         <>
-          <p>
-            You set up your camera in the school’s main hallway. You notice that
-            it looks a lot smaller than it used to.
-          </p>
+          <p>You set up your camera in the school’s main hallway.</p>
           <p>
             After you finish setting up your camera, you begin to wander around
             the hallways. While walking around, you start to feel kind of bored.
@@ -133,8 +130,7 @@ export default function useMainHall(): PassageNode | undefined {
           <p>On the way back, you wonder if it might have been the ghost…</p>
         </>
       );
-
-    if (janitorFlag) {
+    else if (janitorFlag) {
       content = (
         <>
           <p>
@@ -149,9 +145,7 @@ export default function useMainHall(): PassageNode | undefined {
           </p>
         </>
       );
-    }
-
-    if (ryderFlag) {
+    } else if (ryderFlag) {
       flag = Flag.MetRyder;
       effect = 1;
       content = (
@@ -179,9 +173,7 @@ export default function useMainHall(): PassageNode | undefined {
           </p>
         </>
       );
-    }
-
-    if (parkerFlag) {
+    } else if (parkerFlag) {
       flag = Flag.SeenGhost;
       content = (
         <>

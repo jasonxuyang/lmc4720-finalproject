@@ -20,8 +20,6 @@ export default function useGym(): PassageNode | undefined {
   const ryderFlag = checkFlag(flags, Flag.SawRyderInGym);
   const janitorNoFlag = checkFlag(flags, Flag.SaidNoToJanitor);
 
-  console.log(janitorInteractionCount, journal);
-
   const generateChildren = (): PassageNode[] => {
     if (janitorNoFlag) return [];
     if (janitorInteractionCount === 0 && !isRaining) {
@@ -110,7 +108,6 @@ export default function useGym(): PassageNode | undefined {
     let content, flag, person;
     if (isRaining) {
       if (!ryderFlag) {
-        person = Person.Ryder;
         flag = Flag.SawRyderInGym;
         content = (
           <>
@@ -143,7 +140,6 @@ export default function useGym(): PassageNode | undefined {
 
         return {
           content,
-          person,
           children: generateChildren(),
           flag,
         };
@@ -176,7 +172,7 @@ export default function useGym(): PassageNode | undefined {
           children: generateChildren(),
         };
       }
-    } else if (janitorNoFlag) {
+    } else if (janitorNoFlag || checkFlag(flags, Flag.WillNotHelpJanitor)) {
       person = Person.Janitor;
       content = (
         <>
@@ -190,6 +186,18 @@ export default function useGym(): PassageNode | undefined {
       return {
         content,
         person,
+        children: generateChildren(),
+      };
+    } else if (checkFlag(flags, Flag.WillHelpJanitor)) {
+      content = (
+        <>
+          <p>As you enter the gym, you see the janitor mopping the floors.</p>
+          <p>He looks at you with bright eyes and gives you a nod.</p>
+          <p>You continue capturing some b-roll and leave soon after.</p>
+        </>
+      );
+      return {
+        content,
         children: generateChildren(),
       };
     } else {

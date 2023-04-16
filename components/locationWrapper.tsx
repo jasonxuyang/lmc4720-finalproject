@@ -16,6 +16,7 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import useClassroom from "./locations/useClassroom";
 import useMainHall from "./locations/useMainHall";
 import useGym from "./locations/useGym";
+import useLibrary from "./locations/useLibrary";
 
 export default function LocationWrapper() {
   const [location, setLocation] = useRecoilState(locationState);
@@ -27,6 +28,7 @@ export default function LocationWrapper() {
   const classRoomPassage = useClassroom();
   const mainHallPassage = useMainHall();
   const gymPassage = useGym();
+  const libraryPassage = useLibrary();
   const [passage, setPassage] = useState<PassageNode | undefined>(undefined);
 
   useEffect(() => {
@@ -38,6 +40,8 @@ export default function LocationWrapper() {
           return mainHallPassage;
         case Location.Gym:
           return gymPassage;
+        case Location.Library:
+          return libraryPassage;
         default:
           return classRoomPassage;
       }
@@ -57,7 +61,7 @@ export default function LocationWrapper() {
     if (passage?.flag) {
       setFlags([...flags, passage.flag]);
     }
-    if (passage?.effect) {
+    if (passage?.effect && passage?.person) {
       setPeople({
         ...people,
         [passage.person]: {

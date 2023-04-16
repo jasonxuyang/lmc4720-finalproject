@@ -6,7 +6,7 @@ import { useRecoilValue } from "recoil";
 import Journal from "./journal";
 import LocationPicker from "./locationPicker";
 import LocationWrapper from "./locationWrapper";
-import Homecoming from "./homecoming ";
+import Homecoming from "./homecoming";
 
 export default function Game() {
   const gameState = useRecoilValue(gameStateState);

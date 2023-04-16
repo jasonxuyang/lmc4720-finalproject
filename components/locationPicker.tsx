@@ -54,8 +54,7 @@ export default function LocationPicker() {
             return (
               <div
                 className={`cursor-pointer bg-white px-8 py-4 text-black hover:bg-gray-300 ${
-                  (location === Location.Cafeteria ||
-                    location === Location.Library) &&
+                  location === Location.Cafeteria &&
                   "pointer-events-none opacity-50"
                 }`}
                 key={location}
