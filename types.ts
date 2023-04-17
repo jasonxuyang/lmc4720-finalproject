@@ -14,7 +14,6 @@ export enum Location {
   MainHall = "Main Hall",
   Gym = "Gym",
   Library = "Library",
-  Cafeteria = "Cafeteria",
 }
 
 export enum Weather {
@@ -51,11 +50,14 @@ export enum Flag {
   WillHelpRyder = "Offered help to Ryder",
   WillNotHelpRyder = "Rejected help to Ryder",
   TalkedAboutGhostWithRyder = "Talked about Parker with Ryder",
+  GoodEnding = "Good Ending",
+  ImpartialEnding = "Impartial Ending",
+  BadEnding = "Bad Ending",
 }
 
 export type JournalEntry = {
   day: Day;
-  location: Location;
+  location?: Location;
   person?: Person;
   flag?: Flag;
 };
@@ -71,6 +73,7 @@ export type PassageNode = {
   children?: PassageNode[];
   effect?: number;
   flag?: Flag;
+  onClick?: () => void;
 };
 
 export type PersonState = {

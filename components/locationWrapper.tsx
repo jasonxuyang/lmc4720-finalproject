@@ -10,13 +10,14 @@ import journalState from "@/recoil/journalState";
 import locationState from "@/recoil/locationState";
 import peopleState from "@/recoil/peopleState";
 import weatherState from "@/recoil/weatherState";
-import { PassageNode, Location } from "@/types";
+import { PassageNode, Location, Day, Flag } from "@/types";
 import { useEffect, useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import useClassroom from "./locations/useClassroom";
 import useMainHall from "./locations/useMainHall";
 import useGym from "./locations/useGym";
 import useLibrary from "./locations/useLibrary";
+import useHomecoming from "./locations/useHomecoming";
 
 export default function LocationWrapper() {
   const [location, setLocation] = useRecoilState(locationState);
@@ -29,10 +30,12 @@ export default function LocationWrapper() {
   const mainHallPassage = useMainHall();
   const gymPassage = useGym();
   const libraryPassage = useLibrary();
+  const homecomingPassage = useHomecoming();
   const [passage, setPassage] = useState<PassageNode | undefined>(undefined);
 
   useEffect(() => {
     const getIntialPassage = () => {
+      if (day === Day.Saturday) return homecomingPassage;
       switch (location) {
         case Location.Classroom:
           return classRoomPassage;
@@ -43,15 +46,14 @@ export default function LocationWrapper() {
         case Location.Library:
           return libraryPassage;
         default:
-          return classRoomPassage;
+          return homecomingPassage;
       }
     };
     setPassage(getIntialPassage());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 
-  if (!passage || !location) return null;
-  const timesVisited = getVisitedCount(journal, location);
+  if ((!passage || !location) && day !== Day.Saturday) return null;
 
   const goToNextDay = () => {
     setLocation(undefined);
@@ -77,9 +79,6 @@ export default function LocationWrapper() {
 
   return (
     <div className="w-8/12 p-12">
-      <h2>
-        {location}: visited {timesVisited} times
-      </h2>
       <div className="mt-8 flex flex-col gap-y-2">{passage?.content}</div>
       <div className="mt-8">
         {passage?.children?.map((child) => {
@@ -88,6 +87,7 @@ export default function LocationWrapper() {
               key={child.label}
               onClick={() => {
                 setPassage(child);
+                child?.onClick && child?.onClick();
               }}
               className="mt-1 cursor-pointer underline hover:text-gray-300"
             >

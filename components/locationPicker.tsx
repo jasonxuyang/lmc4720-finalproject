@@ -40,7 +40,7 @@ export default function LocationPicker() {
   const day = useRecoilValue(dayState);
   const weather = useRecoilValue(weatherState);
 
-  if (location) return null;
+  if (location || day === Day.Saturday) return null;
 
   return (
     <div className="flex w-8/12 flex-col justify-between p-12">
@@ -53,10 +53,7 @@ export default function LocationPicker() {
           {Object.values(Location).map((location) => {
             return (
               <div
-                className={`cursor-pointer bg-white px-8 py-4 text-black hover:bg-gray-300 ${
-                  location === Location.Cafeteria &&
-                  "pointer-events-none opacity-50"
-                }`}
+                className={`cursor-pointer bg-white px-8 py-4 text-black hover:bg-gray-300`}
                 key={location}
                 onClick={() => {
                   setLocation(location);

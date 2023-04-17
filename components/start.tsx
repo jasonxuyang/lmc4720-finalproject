@@ -9,7 +9,7 @@ export default function Start() {
   return (
     <div className="flex w-full items-center justify-center p-12">
       <div className="w-8/12">
-        <h2 className="mb-2">Haunted High: Filmmaker</h2>
+        <h2 className="mb-2">Haunted High: Filmmaker by Jason Yang</h2>
         <p>
           You are a filmmaker in the early part of your career. You hear about
           strange ghost rumors going on at your old high school, which piques
